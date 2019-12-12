@@ -21,19 +21,20 @@ aiohttp_jinja2.setup(app,loader=jinja2.FileSystemLoader('./templates'))
 
 
 @routes.get('/')
-@aiohttp_jinja2.template('interface.jinja2')
+@aiohttp_jinja2.template('home.jinja2')
 async def hello(request):
 	
 	print("canhtuan")
 
 
 @routes.get('/check_balance')
+@aiohttp_jinja2.template('home.jinja2')
 async def check_balance(request):
-	raise web.HTTPFound('/')
+	print("home.jinja2")
 
 
 @routes.post('/check_balance')
-@aiohttp_jinja2.template('interface.jinja2')
+@aiohttp_jinja2.template('home.jinja2')
 async def check_balance(request):
 	data = await request.post()
 	address = data['address']
@@ -44,13 +45,14 @@ async def check_balance(request):
 	return {'balance':balance_convert}
 
 
-
+#-------------------------------
 @routes.get('/postDataToEth')
+@aiohttp_jinja2.template('user1.jinja2')
 async def postDataToEth(request):
-	raise web.HTTPFound('/')
+	print("user1.jinja2")
 
 @routes.post('/postDataToEth')
-@aiohttp_jinja2.template('interface.jinja2')
+@aiohttp_jinja2.template('user1.jinja2')
 async def postDataToEth(request):
 	data = await request.post()
 	privatekey = data['private_key']
@@ -59,9 +61,10 @@ async def postDataToEth(request):
 	print(privatekey,amount,number)
 
 	time_now = datetime.datetime.now()
-	time_end = time_now.replace(hour=18, minute=30, second=0, microsecond=0)
+	time_end = time_now.replace(hour=23, minute=30, second=0, microsecond=0)
 	print(time_now)
 	if time_now < time_end:
+		
 		today = date.today() 
 		year = time_now.year
 		month = time_now.month
@@ -85,20 +88,23 @@ async def postDataToEth(request):
 		data_string = str(data).encode('utf-8')
 		data_hex = data_string.hex()
 		print(data_hex)
-		tuan = postDataToBlockchain(privatekey,data_hex)
-		print(tuan)
-		return {'tx':tuan}
+		# tx_send_money = send_eth_to_smart_contract(privatekey,amount)
+		# time.sleep(6)
+		tx_post_data =  postDataToBlockchain(privatekey,data_hex)
+		print(tx_post_data)
+		return {'tx':tx_post_data}
 
 	else:
 		return {'tx':"Đặt cược không thành công"}
 
 @routes.get('/set_number_win')
+@aiohttp_jinja2.template('admin.jinja2')
 async def set_number_win(request):
-	raise web.HTTPFound('/')
+	print ("admin.jinja2")
 
 
 @routes.post('/set_number_win')
-@aiohttp_jinja2.template('interface.jinja2')
+@aiohttp_jinja2.template('admin.jinja2')
 async def set_number_win(request):
 	
 	data = await request.post()
@@ -109,14 +115,15 @@ async def set_number_win(request):
 	print(tx)
 	return {'tx_set_number':number_win}
 
-
+#---------------------------------
 @routes.get('/submit')
+@aiohttp_jinja2.template('user2.jinja2')
 async def submit(request):
-	raise web.HTTPFound('/')
+	print("user2.jinja2")
 
 
 @routes.post('/submit')
-@aiohttp_jinja2.template('interface.jinja2')
+@aiohttp_jinja2.template('user2.jinja2')
 async def submit_tx(request):
 	data = await request.post()
 	tx = data['tx']
@@ -148,7 +155,7 @@ async def submit_tx(request):
 
 
 	time_now_format =  datetime.timedelta(hours=hour, minutes=minute, seconds=0, microseconds=0)
-	time_end = datetime.timedelta(hours=1, minutes=10, seconds=0, microseconds=0)
+	time_end = datetime.timedelta(hours=21, minutes=55, seconds=0, microseconds=0)
 	time_block_chain = datetime.timedelta(hours=hour_block_chain, minutes=hour_block_chain, seconds=second_block_chain, microseconds=0)
 
 
@@ -159,6 +166,7 @@ async def submit_tx(request):
 			print(number,privateKey,money,type(tx))
 			tuan = submitSmartContract(number,privateKey,money,str(tx))
 			print(tuan)
+			return {'msg':"Woa! you win"}
 			# if int(get_number_win_from_contract) == int(info['number']):
 				
 			# 	print(money)

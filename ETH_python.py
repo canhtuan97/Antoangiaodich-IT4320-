@@ -19,20 +19,23 @@ def privateKeytoAddress(private_key):
 	return acct.address
 # print("trancanhtuan " ,privateKeytoAddress("4491afbdf42a09657e00290398ae28eb91181328483494ecf7bb3de7548c2ac9"))
 
-# def send_eth():
-# 	signed_txn = web3.eth.account.signTransaction(dict(
-# 	    nonce=web3.eth.getTransactionCount(address),
-# 	    gasPrice = web3.toWei('50', 'gwei'), 
-# 	    gas = 800000,
-# 	    to= addressContract,
-# 	    value=web3.toWei(50,'ether')
-# 	  ),privateKey)
-# 	txt = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
-# 	return txt
-# # send_eth()
+def send_eth_to_smart_contract(private_key,amount):
+	address = privateKeytoAddress(private_key)
+	print(private_key,address)
+	signed_txn = web3.eth.account.signTransaction(dict(
+	    nonce=web3.eth.getTransactionCount(address),
+	    gasPrice = web3.toWei('50', 'gwei'), 
+	    gas = 800000,
+	    to= addressContract,
+	    value=web3.toWei(amount,'ether')
+	  ),private_key)
+	txt = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
+	return (web3.toHex(txt))
+# print(send_eth_to_smart_contract("4491afbdf42a09657e00290398ae28eb91181328483494ecf7bb3de7548c2ac9",0.1))
 
 def postDataToBlockchain(private_key,data):
 	address = privateKeytoAddress(private_key)
+	print(private_key,address)
 	signed_txn = web3.eth.account.signTransaction(dict(
 	    nonce=web3.eth.getTransactionCount(address),
 	    gasPrice = web3.toWei('50', 'gwei'), 
@@ -59,7 +62,8 @@ def getBalance(address):
 def checkBalanceContract():
 	balance = contract.functions.getBalance().call()
 	return balance
-
+# tuan = checkBalanceContract();
+# print(tuan)
 #-------------------
 def set_numberWin(number,private_key):
 	address = privateKeytoAddress(private_key)
@@ -118,7 +122,7 @@ def getTransaction(txHash):
 	input = data['input']
 	tuan = bytearray.fromhex(input[2:]).decode()
 	return tuan
-tuan = getTransaction("0x242c4992de691c7b56489fdcc8c8fc9ba50c091c044da39621f05c43f4e8dc63")
-print(tuan)
+# tuan = getTransaction("0x242c4992de691c7b56489fdcc8c8fc9ba50c091c044da39621f05c43f4e8dc63")
+# print(tuan)
 
 # print(tuan)
