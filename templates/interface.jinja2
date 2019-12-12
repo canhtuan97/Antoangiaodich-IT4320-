@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
+
+</head>
+<body>
+<div class="container">
+  <hr>
+  <form action="http://127.0.0.1:8080/check_balance" method="post">
+  <div class="form-group">
+    <label for="exampleInputPassword1"><h1>Check Balance</h1></label>
+    <input type="text" class="form-control" name="address" id="address" placeholder="address" style="width: 250px">
+  </div>
+  <button type="submit" class="btn btn-primary">Check</button>
+  
+  </form>
+  {% if balance is defined %}
+     Bạn có :  {{balance}} ETH
+  {% endif %}
+  <hr>
+  <h1>Player</h1>
+	<form action = "http://127.0.0.1:8080/postDataToEth" method="post">
+
+          <div class="form-group">
+            <label for="exampleInputPassword1">PrivateKey</label>
+            <input type="text" class="form-control" name="private_key" id="private_key" placeholder="PrivateKey">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Number</label>
+            <input type="number" id="number" name="number" class="form-control" placeholder="Number" style="width: 250px">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Amount</label>
+            <input type="text" class="form-control" name="amount" id="amount" placeholder="Amount" style="width: 250px">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% if tx is defined %}
+     Thông báo :  {{tx}} 
+{% endif %}
+<hr>
+
+<hr>
+<h1>Admin</h1>  
+<div>
+    <form action="/set_number_win" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
+    <div class="form-group">
+      <label for="exampleInputPassword1">SetWin</label>
+      <input type="text" class="form-control" name="privateKey"  id="privateKey" placeholder="privateKey" style="width: 500px">
+      
+    </div>
+    <button type="submit" class="btn btn-primary">Set</button>
+    <hr>
+
+    </form>
+</div>
+{% if tx_set_number is defined %}
+     Thông báo :  {{tx_set_number}} 
+{% endif %}
+<hr>
+<h1>Submit</h1>  
+<div>
+    <form action="http://127.0.0.1:8080/submit" method="post">
+    <div class="form-group">
+      <label for="exampleInputPassword1">PrivateKey</label>
+      <input type="text" class="form-control" name="privateKey"  id="privateKey" placeholder="privateKey" style="width: 500px">
+      
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Tx_hash</label>
+      <input type="text" class="form-control" name="tx"  id="tx" placeholder="Tx_hash" style="width: 500px">
+      
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <hr>
+
+    </form>
+</div>
+</div>
+
+</body>
+</html>
