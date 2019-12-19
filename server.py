@@ -61,7 +61,7 @@ async def postDataToEth(request):
 	print(privatekey,amount,number)
 
 	time_now = datetime.datetime.now()
-	time_end = time_now.replace(hour=23, minute=30, second=0, microsecond=0)
+	time_end = time_now.replace(hour=18, minute=30, second=0, microsecond=0)
 	print(time_now)
 	if time_now < time_end:
 		
@@ -88,10 +88,10 @@ async def postDataToEth(request):
 		data_string = str(data).encode('utf-8')
 		data_hex = data_string.hex()
 		print(data_hex)
-		# tx_send_money = send_eth_to_smart_contract(privatekey,amount)
+		tx_send_money = await send_eth_to_smart_contract(privatekey,amount)
 		# time.sleep(6)
-		tx_post_data =  postDataToBlockchain(privatekey,data_hex)
-		print(tx_post_data)
+		tx_post_data = await postDataToBlockchain(privatekey,data_hex)
+		print(tx_post_data,tx_send_money)
 		return {'tx':tx_post_data}
 
 	else:
@@ -155,29 +155,30 @@ async def submit_tx(request):
 
 
 	time_now_format =  datetime.timedelta(hours=hour, minutes=minute, seconds=0, microseconds=0)
-	time_end = datetime.timedelta(hours=21, minutes=55, seconds=0, microseconds=0)
+	time_end = datetime.timedelta(hours=8, minutes=21, seconds=0, microseconds=0)
 	time_block_chain = datetime.timedelta(hours=hour_block_chain, minutes=hour_block_chain, seconds=second_block_chain, microseconds=0)
-
+	print(time_block_chain)
 
 	if year == year_block_chain and month == month_block_chain and day == day_block_chain :
 		
 		if time_end > time_block_chain and time_end < time_now_format:
 			print("oki")
-			print(number,privateKey,money,type(tx))
-			tuan = submitSmartContract(number,privateKey,money,str(tx))
-			print(tuan)
-			return {'msg':"Woa! you win"}
-			# if int(get_number_win_from_contract) == int(info['number']):
+			number_win = get_number_win()
+			if number_win == number:
+				print("oki")
+				number_win = get_number_win()
+				if number_win == number:
+					print(number,privateKey,money,type(tx))
+					tuan = submitSmartContract(number,privateKey,money*2,str(tx))
+					print(tuan)
+					return {'msg':"Woa! you win"}
+				else:
+					return {'msg':"Hmm error number"}
 				
-			# 	print(money)
-			# 	# tx= submit(int(info['number']),address,privateKey,1)
-			# 	# print(tx)
-			# else:
-			# 	print("ban khong trung thuong")
 		else:
-			print("sai")
+			return {'msg':"Hmm error time"}
 	else:
-		print("Da qua ngay thang nam")
+		return {'msg':"Hmm error "}
 
 if __name__ == "__main__":
 	app.add_routes(routes)

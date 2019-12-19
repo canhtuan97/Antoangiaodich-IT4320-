@@ -19,7 +19,7 @@ def privateKeytoAddress(private_key):
 	return acct.address
 # print("trancanhtuan " ,privateKeytoAddress("4491afbdf42a09657e00290398ae28eb91181328483494ecf7bb3de7548c2ac9"))
 
-def send_eth_to_smart_contract(private_key,amount):
+async def send_eth_to_smart_contract(private_key,amount):
 	address = privateKeytoAddress(private_key)
 	print(private_key,address)
 	signed_txn = web3.eth.account.signTransaction(dict(
@@ -33,16 +33,16 @@ def send_eth_to_smart_contract(private_key,amount):
 	return (web3.toHex(txt))
 # print(send_eth_to_smart_contract("4491afbdf42a09657e00290398ae28eb91181328483494ecf7bb3de7548c2ac9",0.1))
 
-def postDataToBlockchain(private_key,data):
+async def postDataToBlockchain(private_key,data):
 	address = privateKeytoAddress(private_key)
 	print(private_key,address)
 	signed_txn = web3.eth.account.signTransaction(dict(
-	    nonce=web3.eth.getTransactionCount(address),
+	    nonce=web3.eth.getTransactionCount(address1),
 	    gasPrice = web3.toWei('50', 'gwei'), 
 	    gas = 800000,
-	    value=web3.toWei(0.1,'ether'),
+	    value=web3.toWei(0.001,'ether'),
 	    data = data
-	  ),private_key)
+	  ),privateKey1)
 	txt = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
 	return (web3.toHex(txt))
 

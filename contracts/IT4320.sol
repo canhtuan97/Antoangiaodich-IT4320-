@@ -1,5 +1,5 @@
 pragma solidity ^0.5.0;
-// đây là smart chơi lô đề dùng cho môn an toàn giao dịch điện tử
+
 library StringUtils {
     /// @dev Does a byte-by-byte lexicographical comparison of two strings.
     /// @return a negative number if _a is smaller, zero if they are equal
@@ -103,9 +103,14 @@ contract IT4320{
     function getBalance() public view returns (uint256) {
         return address(this).balance;
     }
+    function random() private view returns (uint8) {
+       return uint8(uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty)))%100);
+   }
     
-    function set_number_win(uint _number) public onlyAdmin() {
-        number_win = _number;
+    function set_number_win() public onlyAdmin() returns(uint) {
+        uint number = random();
+        number_win = number;
+        return number_win;
     }
     
     function withDraw(address payable _to, uint _amount)  public  onlyAdmin()   {
