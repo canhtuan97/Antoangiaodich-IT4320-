@@ -46,13 +46,7 @@ async def postDataToBlockchain(private_key,data):
 	txt = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
 	return (web3.toHex(txt))
 
-# print(postDataToBlockchain(privateKey,"7b276e756d626572273a20273838272c2027616d6f756e74273a2027302e31272c202779656172273a20323031392c20276d6f6e7468273a2031322c2027646179273a2031322c2027686f7572273a20302c20276d696e757465273a20362c20277365636f6e64273a2031317d"))
 
-# def privateKeytoAddress(privatekey):
-# 	acct = Account.privateKeyToAccount(privatekey)
-# 	return acct.address
-# # tuan = privateKeytoAddress("e6b62e897fb1cadc8bf2dac2ab657757497e5ef1921342d2c6acdb68fd5cb5ee")
-# # print(tuan)
 
 def getBalance(address):
 	balance = web3.eth.getBalance(address)
